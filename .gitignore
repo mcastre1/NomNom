@@ -99,3 +99,6 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+
+# supabase keys
+/lib
