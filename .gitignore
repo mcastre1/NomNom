@@ -27,6 +27,12 @@ Thumbs.db
 logs/
 debug.log
 
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
 # TypeScript
 *.tsbuildinfo
 
@@ -60,3 +66,36 @@ ios/*.xcuserstate
 
 # Misc
 coverage/
+
+# generated native folders
+/ios
+/android
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# Native
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env*.local
+
+# typescript
+*.tsbuildinfo
+
+app-example
