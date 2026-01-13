@@ -5,12 +5,12 @@ import { Tabs } from 'expo-router';
 export default function AuthLayout() {
     return (
         <Tabs screenOptions={{
-            tabBarActiveTintColor: '#ffd33d',
+            tabBarActiveTintColor: '#ffffff',
             headerStyle: {
                 backgroundColor: '#25292e',
             },
             headerShadowVisible: false,
-            headerTintColor: '#fff',
+            headerTintColor: '#ffffff',
             tabBarStyle: {
                 backgroundColor: '#25292e',
             },
