@@ -18,6 +18,7 @@ AppState.addEventListener('change', (state) => {
 })
 
 export default function RootLayout() {
+  // This piece of code keeps track of the session so we can pass it around all other screens/tabs.
   const [session, setSession] = useState<Session | null>(null)
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
