@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { useState } from "react";
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { supabase } from '../lib/supabase';
@@ -5,10 +6,8 @@ import { supabase } from '../lib/supabase';
 export default function Signin() {
     const [email, setEmail] = useState('Email')
     const [password, setPassword] = useState('Password')
-    const [loading, setLoading] = useState(false)
 
     async function signInWithEmail() {
-        setLoading(true)
         const { error } = await supabase.auth.signInWithPassword({
             email: email,
             password: password,
@@ -18,8 +17,8 @@ export default function Signin() {
             Alert.alert(error.message)
         } else {
             Alert.alert("good credentials")
+            router.replace("/account")  //Manual redirect, couldnt get automatic redirect working
         }
-        setLoading(false)
     }
 
     return (
