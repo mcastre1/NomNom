@@ -2,7 +2,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Tabs } from 'expo-router';
 
 // Creates the layout for the tabs in the authentication section.
-export default function authTabs() {
+export default function appTabs() {
     return (
         <Tabs screenOptions={{
             tabBarActiveTintColor: '#ffffff',
@@ -15,18 +15,11 @@ export default function authTabs() {
                 backgroundColor: '#25292e',
             },
         }}>
-            <Tabs.Screen name="login"
+            <Tabs.Screen name="account"
             options={{
-                title: 'Login',
+                title: 'Account',
                 tabBarIcon: ({color, focused}) => (
                     <Ionicons name={focused ? 'person' : 'person-outline'} color = {color} size = {24}></Ionicons>
-                )
-            }}/>
-            <Tabs.Screen name="register"
-            options={{
-                title: 'Register',
-                tabBarIcon: ({color, focused}) => (
-                    <Ionicons name={focused ? 'person-add' : 'person-add-outline'} color = {color} size = {24}></Ionicons>
                 )
             }}/>
         </Tabs>
