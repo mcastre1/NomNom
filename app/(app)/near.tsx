@@ -3,7 +3,7 @@ import * as Location from 'expo-location';
 import { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 
-const GOOGLE_API_KEY = 'AIzaSyAtrvII5_W6ms7VM7j_mbatXjxySgSO9yo';
+const GOOGLE_API_KEY = process.env.EXPO_PUBLIC_GOOGLE_MAPS_API;
 
 export default function AboutScreen() {
   useEffect(() => {
