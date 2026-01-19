@@ -1,23 +1,31 @@
 import RestaurantCard from '@/components/RestaurantCard';
 import * as Location from 'expo-location';
 import { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
 
 const GOOGLE_API_KEY = process.env.EXPO_PUBLIC_GOOGLE_MAPS_API;
 
+
 export default function AboutScreen() {
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
     async function loadRestaurants() {
       // Ask for permission
       const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted'){
+      if (status !== 'granted') {
         console.log('Permission denied');
         return;
       }
 
       // get current location
-      const location = await Location.getCurrentPositionAsync({});
-      const {latitude, longitude} = location.coords;
+      let location = await Location.getLastKnownPositionAsync();
+
+      if (!location){
+        location = await Location.getCurrentPositionAsync({});
+      }
+
+      const { latitude, longitude } = location.coords;
 
       // url api call
       const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json` + `?location=${latitude},${longitude}` + `&radius=3000` + `&type=restaurant` + `&key=${GOOGLE_API_KEY}`;
@@ -28,16 +36,16 @@ export default function AboutScreen() {
       const json = await response.json();
       console.log(json);
 
-      const mapped = json.results.map((place) => ({ 
-        id: place.place_id, 
-        name: place.name, 
-        address: place.vicinity, 
-        location: place.geometry.location, 
-        photoRef: place.photos?.[0]?.photo_reference, 
+      const mapped = json.results.map((place) => ({
+        id: place.place_id,
+        name: place.name,
+        address: place.vicinity,
+        location: place.geometry.location,
+        photoRef: place.photos?.[0]?.photo_reference,
       }));
 
       setData(mapped);
-      console.log(mapped);
+      setLoading(false);
     }
     loadRestaurants();
   }, []);
@@ -47,14 +55,19 @@ export default function AboutScreen() {
   const [data, setData] = useState([]);
 
   return (
-    <View style={styles.container}>
-      <FlatList style={styles.listStyle}
-        data={data}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <RestaurantCard name={item.name} address={item.address} />
-        )} />
-    </View>
+    loading ? (<View style={styles.loading}>
+      <ActivityIndicator size="large" color="#000" />
+    </View>) : (
+      <View style={styles.container}>
+        <FlatList style={styles.listStyle}
+          data={data}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <RestaurantCard name={item.name} address={item.address} />
+          )} />
+      </View>
+    )
+
   );
 }
 
@@ -71,4 +84,9 @@ const styles = StyleSheet.create({
   listStyle: {
     width: '100%',
   },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });
