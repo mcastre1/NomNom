@@ -4,8 +4,8 @@ import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "reac
 import { supabase } from '../lib/supabase';
 
 export default function Signin() {
-    const [email, setEmail] = useState('Email')
-    const [password, setPassword] = useState('Password')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
     async function signInWithEmail() {
         const { error } = await supabase.auth.signInWithPassword({
@@ -24,9 +24,9 @@ export default function Signin() {
     return (
         <View style={styles.container}>
             <Text style={styles.label}>Email:</Text>
-            <TextInput style={styles.input} value={email} placeholder="Email" onChangeText={setEmail} />
+            <TextInput style={styles.input} placeholder="Email" onChangeText={setEmail} />
             <Text style={styles.label}>Password:</Text>
-            <TextInput style={styles.input} secureTextEntry value={password} placeholder="*********" onChangeText={setPassword} />
+            <TextInput style={styles.input} secureTextEntry placeholder="*********" onChangeText={setPassword} />
             <TouchableOpacity style={styles.button} onPress={signInWithEmail}>
                 <Text style={styles.buttonText}>Log In</Text>
             </TouchableOpacity>
