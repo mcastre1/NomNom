@@ -26,6 +26,7 @@ export default function AboutScreen() {
       //fetch data
       const response = await fetch(url);
       const json = await response.json();
+      console.log(json);
 
       const mapped = json.results.map((place) => ({ 
         id: place.place_id, 
@@ -36,6 +37,7 @@ export default function AboutScreen() {
       }));
 
       setData(mapped);
+      console.log(mapped);
     }
     loadRestaurants();
   }, []);
