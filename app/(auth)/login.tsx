@@ -1,7 +1,7 @@
 import Signin from "@/components/signin";
 import { View } from "react-native";
 
-export default function Index() {
+export default function Login() {
   return (
     <View
       style={{

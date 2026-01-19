@@ -2,7 +2,6 @@ import { Session } from "@supabase/supabase-js";
 import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { AppState } from 'react-native';
-import { SafeAreaProvider } from "react-native-safe-area-context";
 import { supabase } from '../lib/supabase';
 
 // Tells Supabase Auth to continuously refresh the session automatically if
@@ -20,18 +19,31 @@ AppState.addEventListener('change', (state) => {
 export default function RootLayout() {
   // This piece of code keeps track of the session so we can pass it around all other screens/tabs.
   const [session, setSession] = useState<Session | null>(null)
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
+      setLoading(false)
     })
     supabase.auth.onAuthStateChange((_event, session) => {
+      console.log("Auth event:", _event)
+      console.log("SESSION:", session)
+      console.log(session?.user)
       setSession(session)
     })
   }, [])
 
-  return (<SafeAreaProvider>
-    <Stack>
-      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+  if(loading){
+    return null
+  }
+
+  return (<Stack screenOptions={{ headerShown: false }}>
+      {session ? (
+        <Stack.Screen name="(app)" />
+      ) : (
+        <Stack.Screen name="(auth)" />
+      )}
     </Stack>
-  </SafeAreaProvider>);
+  );
 }

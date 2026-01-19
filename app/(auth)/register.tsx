@@ -1,7 +1,7 @@
 import SignUp from "@/components/signup";
 import { View } from "react-native";
 
-export default function Index() {
+export default function Register() {
   return (
     <View
       style={{
