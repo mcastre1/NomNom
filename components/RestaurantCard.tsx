@@ -1,21 +1,21 @@
 
 import { Image } from 'expo-image';
-import { ImageSourcePropType, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 type Props = {
     name: string;
     address: string;
-    imgSource?: ImageSourcePropType;
+    photoUrl?: string;
 };
 
 
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 
 
-export default function RestaurantCard({name, address, imgSource}: Props){
+export default function RestaurantCard({name, address, photoUrl}: Props){
     return (
         <View style={styles.cardContainer}>
-                <Image style={styles.imageStyle} source={PlaceholderImage}/>
+                {photoUrl ? <Image style={styles.imageStyle} source={{uri: photoUrl}}/> :<Image style={styles.imageStyle} source={PlaceholderImage}/>}
             <View style={styles.infoContainer}>
                 <Text>{name}</Text>
                 <Text>{address}</Text>
