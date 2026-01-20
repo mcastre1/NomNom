@@ -42,6 +42,7 @@ export default function AboutScreen() {
         address: place.vicinity,
         location: place.geometry.location,
         photoRef: place.photos?.[0]?.photo_reference,
+        photoUrl: place.photos?.[0] ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place.photos[0].photo_reference}&key=${GOOGLE_API_KEY}` : null,
       }));
 
       setData(mapped);
@@ -63,7 +64,7 @@ export default function AboutScreen() {
           data={data}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <RestaurantCard name={item.name} address={item.address} />
+            <RestaurantCard name={item.name} address={item.address} photoUrl={item.photoUrl}/>
           )} />
       </View>
     )
