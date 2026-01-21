@@ -29,6 +29,8 @@ export default function appTabs() {
                     <Ionicons name={focused ? 'person' : 'person-outline'} color = {color} size = {24}></Ionicons>
                 )
             }}/>
+
+            <Tabs.Screen name="restaurant" options={{href:null}}/>
             
         </Tabs>
     )

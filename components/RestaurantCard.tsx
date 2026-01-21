@@ -1,19 +1,34 @@
 
 import { Image } from 'expo-image';
-import { StyleSheet, Text, View } from 'react-native';
+import { router } from 'expo-router';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 type Props = {
     name: string;
     address: string;
     photoUrl?: string;
+    types: Array<string>;
 };
 
 
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 
 
-export default function RestaurantCard({name, address, photoUrl}: Props){
+export default function RestaurantCard({name, address, photoUrl, types}: Props){
     return (
+        // Pressable will route us to restaurant and pass in some parameters about the clicked restaurant.
+        // To show a detail screen about the restaurant.
+        <Pressable onPress={
+            ()=> router.push({
+                pathname: '/(app)/restaurant',
+                params: {
+                    name: name,
+                    address: address,
+                    photoUrl: photoUrl,
+                    types: types,
+                },
+            })
+        }>
         <View style={styles.cardContainer}>
                 {photoUrl ? <Image style={styles.imageStyle} source={{uri: photoUrl}}/> :<Image style={styles.imageStyle} source={PlaceholderImage}/>}
             <View style={styles.infoContainer}>
@@ -21,6 +36,7 @@ export default function RestaurantCard({name, address, photoUrl}: Props){
                 <Text>{address}</Text>
             </View>
         </View>
+        </Pressable>
     )
 }
 
