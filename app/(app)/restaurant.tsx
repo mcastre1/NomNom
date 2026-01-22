@@ -1,11 +1,19 @@
 import { Image } from 'expo-image';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 
 export default function RestaurantScreen() {
   const {name, address, photoUrl, genre} = useLocalSearchParams();
+  const navigation = useNavigation();
+
+  useEffect(()=>{
+    navigation.setOptions({
+      title:name,
+    });
+  }, [name]);
 
   return (
     <View style={styles.container}>
