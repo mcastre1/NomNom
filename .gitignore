@@ -100,5 +100,3 @@ yarn-error.*
 
 app-example
 
-# supabase keys
-/lib
