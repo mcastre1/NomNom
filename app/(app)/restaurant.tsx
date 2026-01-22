@@ -1,3 +1,4 @@
+import FloatingButton from '@/components/FloatingButton';
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
@@ -15,13 +16,20 @@ export default function RestaurantScreen() {
     });
   }, [name]);
 
+  function buttonPressed(){
+    console.log("Button pressed")
+  }
+
   return (
+    <>
     <View style={styles.container}>
       {photoUrl ? <Image style={styles.imageStyle} source={{uri: photoUrl}}/> :<Image style={styles.imageStyle} source={PlaceholderImage}/>}
       <Text>{name}</Text>
       <Text>{address}</Text>
       <Text>{genre}</Text>
     </View>
+    <FloatingButton onPress={buttonPressed}></FloatingButton>
+    </>
   );
 }
 
