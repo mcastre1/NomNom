@@ -20,7 +20,7 @@ export default function RestaurantScreen() {
   function buttonPressed() {
     const id = Date.now().toString();
 
-    registerCallback(id, (result) => {
+    registerCallback(id, (result: any) => {
       console.log("Modal returned:", result);
     });
 
