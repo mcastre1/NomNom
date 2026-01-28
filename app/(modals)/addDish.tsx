@@ -1,4 +1,5 @@
 import { resolveCallback } from "@/utils/modalCallback";
+import { Picker } from "@react-native-picker/picker";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
@@ -12,7 +13,7 @@ export default function SelectDishModal() {
   function submit() {
     resolveCallback(callbackId, {
       dish: name,
-      rating: 5,
+      rating: rating,
       notes:  note,
     });
 
@@ -23,6 +24,13 @@ export default function SelectDishModal() {
     <Text style={styles.label}>Name:</Text>
     <TextInput style={styles.input} onChangeText={setName}/>
     <Text style={styles.label}>Rating:</Text>
+    <Picker selectedValue={rating} onValueChange={(value) => setRating(value)}>
+      <Picker.Item label="1" value={1}/>
+      <Picker.Item label="2" value={2}/>
+      <Picker.Item label="3" value={3}/>
+      <Picker.Item label="4" value={4}/>
+      <Picker.Item label="5" value={5}/>
+    </Picker>
     <Text style={styles.label}>Note:</Text>
     <TextInput style={styles.input} onChangeText={setNote}/>
     <Button title="Save" onPress={submit} />
