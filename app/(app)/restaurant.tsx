@@ -1,8 +1,9 @@
 import FloatingButton from '@/components/FloatingButton';
+import { supabase } from '@/lib/supabase';
 import { registerCallback } from '@/utils/modalCallback';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
@@ -10,6 +11,7 @@ const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 export default function RestaurantScreen() {
   const { name, address, photoUrl, genre } = useLocalSearchParams();
   const navigation = useNavigation();
+  const [result, setResult] = useState({});
 
   useEffect(() => {
     navigation.setOptions({
@@ -17,11 +19,31 @@ export default function RestaurantScreen() {
     });
   }, [name]);
 
+  useEffect(() => {
+    addDish();
+  }, [result]);
+
+  async function addDish() {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    const { data, error } = await supabase.from('dishes').insert([{
+      name: result.name,
+      rating: result.rating,
+      notes: result.notes,
+      photo: result.photo,
+      user_id: user.id,
+    }], {returning: 'minimal'});
+
+    if(error){
+      console.log(error.message)
+    }
+  }
+
   function buttonPressed() {
     const id = Date.now().toString();
 
     registerCallback(id, (result: any) => {
-      console.log("Modal returned:", result);
+      setResult(result);
     });
 
     router.push({

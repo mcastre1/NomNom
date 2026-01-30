@@ -7,14 +7,15 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 export default function SelectDishModal() {
   const { callbackId } = useLocalSearchParams();
   const [name, setName] = useState("");
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(1);
   const [note, setNote] = useState("");
 
   function submit() {
     resolveCallback(callbackId, {
-      dish: name,
+      name: name,
       rating: rating,
       notes:  note,
+      photo: "photo",
     });
 
     router.dismiss();
