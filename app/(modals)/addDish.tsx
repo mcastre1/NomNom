@@ -1,5 +1,6 @@
 import { resolveCallback } from "@/utils/modalCallback";
 import { Picker } from "@react-native-picker/picker";
+import * as ImagePicker from 'expo-image-picker';
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
@@ -9,19 +10,33 @@ export default function SelectDishModal() {
   const [name, setName] = useState("");
   const [rating, setRating] = useState(1);
   const [note, setNote] = useState("");
+  const [photo, setPhoto] = useState({});
 
   function submit() {
     resolveCallback(callbackId, {
       name: name,
       rating: rating,
       notes:  note,
-      photo: "photo",
+      photo: photo,
     });
 
     router.dismiss();
   }
 
+  async function pickImage(){
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (result.canceled) return null;
+    setPhoto(result.assets[0]);
+    
+  }
+
   return <View style={styles.container}>
+    <Button title="Pick Image" onPress={pickImage}/>
     <Text style={styles.label}>Name:</Text>
     <TextInput style={styles.input} onChangeText={setName}/>
     <Text style={styles.label}>Rating:</Text>
