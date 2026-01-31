@@ -23,18 +23,51 @@ export default function RestaurantScreen() {
     addDish();
   }, [result]);
 
+  async function uriToArrayBuffer(uri: string) {
+    const response = await fetch(uri);
+    return await response.arrayBuffer();
+  }
+
+
+  async function uploadImageToSupabaseBucket() {
+    if (!result.photo) return;
+
+    const arrayBuffer = await uriToArrayBuffer(result.photo.uri)
+
+    const fileExt = result.photo.uri.split('.').pop() ?? 'jpg';
+    const fileName = `${Date.now()}.${fileExt}`;
+
+    console.log(fileExt);
+    console.log(fileName);
+
+    const { data, error } = await supabase.storage
+      .from('dishes') // your bucket name
+      .upload(fileName, arrayBuffer, {
+        contentType: result.photo.mimeType ?? 'image/jpeg',
+      });
+
+    if (error) {
+      console.error('Upload error:', error);
+      return null;
+    }
+
+    return data.path;
+  }
+
   async function addDish() {
+    const imagePath = uploadImageToSupabaseBucket();
+
     const { data: { user } } = await supabase.auth.getUser();
 
     const { data, error } = await supabase.from('dishes').insert([{
       name: result.name,
       rating: result.rating,
       notes: result.notes,
-      photo: result.photo,
+      photo: imagePath,
       user_id: user.id,
-    }], {returning: 'minimal'});
+    }], { returning: 'minimal' });
 
-    if(error){
+    if (error) {
       console.log(error.message)
     }
   }
