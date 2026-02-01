@@ -3,7 +3,7 @@ import { Picker } from "@react-native-picker/picker";
 import * as ImagePicker from 'expo-image-picker';
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default function SelectDishModal() {
   const { callbackId } = useLocalSearchParams();
@@ -11,6 +11,8 @@ export default function SelectDishModal() {
   const [rating, setRating] = useState(1);
   const [note, setNote] = useState("");
   const [photo, setPhoto] = useState({});
+
+  const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 
   function submit() {
     resolveCallback(callbackId, {
@@ -36,11 +38,12 @@ export default function SelectDishModal() {
   }
 
   return <View style={styles.container}>
+    {photo ? <Image style={styles.imageStyle} source={{uri: photo.uri}}/> :<Image style={styles.imageStyle}  source={PlaceholderImage}/>}
     <Button title="Pick Image" onPress={pickImage}/>
     <Text style={styles.label}>Name:</Text>
     <TextInput style={styles.input} onChangeText={setName}/>
     <Text style={styles.label}>Rating:</Text>
-    <Picker selectedValue={rating} onValueChange={(value) => setRating(value)}>
+    <Picker style={styles.picker} selectedValue={rating} onValueChange={(value) => setRating(value)}>
       <Picker.Item label="1" value={1}/>
       <Picker.Item label="2" value={2}/>
       <Picker.Item label="3" value={3}/>
@@ -58,11 +61,13 @@ const styles = StyleSheet.create({
         padding: 20,
         gap: 12,
         width: '100%',
+        alignItems: "center",
     },
     label: {
         fontSize: 16,
         fontWeight: "600",
         marginTop: 10,
+        width: "100%"
     },
     input: {
         borderWidth: 1,
@@ -70,6 +75,10 @@ const styles = StyleSheet.create({
         padding: 12,
         borderRadius: 8,
         fontSize: 16,
+        width: "100%",
+    },
+    picker: {
+      width: "100%",
     },
     button: {
         backgroundColor: "#4A90E2",
@@ -77,11 +86,18 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginTop: 20,
         alignItems: "center",
+        width: "100%",
     },
     buttonText: {
         color: "white",
         fontWeight: "700",
         fontSize: 16,
+        width: "100%",
+    },
+    imageStyle:{
+        width:200,
+        height:200,
+        borderRadius:10,
     },
 
 });

@@ -29,12 +29,10 @@ export default function AboutScreen() {
 
       // url api call
       const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json` + `?location=${latitude},${longitude}` + `&radius=3000` + `&type=restaurant` + `&key=${GOOGLE_API_KEY}`;
-      console.log(url);
 
       //fetch data
       const response = await fetch(url);
       const json = await response.json();
-      console.log(json);
 
       const mapped = json.results.map((place) => ({
         id: place.place_id,
