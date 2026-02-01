@@ -6,6 +6,7 @@ import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+const EXPO_PUBLIC_BUCKET_URL = process.env.EXPO_PUBLIC_BUCKET_URL;
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 
 export default function RestaurantScreen() {
@@ -51,11 +52,11 @@ export default function RestaurantScreen() {
       return null;
     }
 
-    return data.path;
+    return EXPO_PUBLIC_BUCKET_URL + data.path;
   }
 
   async function addDish() {
-    const imagePath = uploadImageToSupabaseBucket();
+    const imagePath = await uploadImageToSupabaseBucket();
 
     const { data: { user } } = await supabase.auth.getUser();
 
