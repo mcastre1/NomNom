@@ -63,7 +63,7 @@ export default function AboutScreen() {
           data={data}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <RestaurantCard name={item.name} address={item.address} photoUrl={item.photoUrl} types={item.types}/>
+            <RestaurantCard restaurantId={item.id} name={item.name} address={item.address} photoUrl={item.photoUrl} types={item.types}/>
           )} />
       </View>
     )

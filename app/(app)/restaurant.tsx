@@ -10,7 +10,7 @@ const EXPO_PUBLIC_BUCKET_URL = process.env.EXPO_PUBLIC_BUCKET_URL;
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 
 export default function RestaurantScreen() {
-  const { name, address, photoUrl, genre } = useLocalSearchParams();
+  const { restaurantId, name, address, photoUrl, genre } = useLocalSearchParams();
   const navigation = useNavigation();
   const [result, setResult] = useState({});
 
@@ -67,6 +67,7 @@ export default function RestaurantScreen() {
       notes: result.notes,
       photo: imagePath,
       user_id: user.id,
+      restaurant_id: restaurantId,
     }], { returning: 'minimal' });
 
     if (error) {
@@ -83,7 +84,7 @@ export default function RestaurantScreen() {
 
     router.push({
       pathname: "/(modals)/addDish",
-      params: { callbackId: id }
+      params: { callbackId: id}
     });
   }
 

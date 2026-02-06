@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default function SelectDishModal() {
-  const { callbackId } = useLocalSearchParams();
+  const { callbackId} = useLocalSearchParams();
   const [name, setName] = useState("");
   const [rating, setRating] = useState(1);
   const [note, setNote] = useState("");
