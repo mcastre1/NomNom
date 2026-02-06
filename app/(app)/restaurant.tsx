@@ -21,7 +21,9 @@ export default function RestaurantScreen() {
   }, [name]);
 
   useEffect(() => {
-    addDish();
+    if(Object.keys(result).length !== 0){
+      addDish();
+    }
   }, [result]);
 
   async function uriToArrayBuffer(uri: string) {
@@ -31,10 +33,9 @@ export default function RestaurantScreen() {
 
 
   async function uploadImageToSupabaseBucket() {
-    if (!result.photo) return;
+    if (Object.keys(result.photo).length === 0) return;
 
     const arrayBuffer = await uriToArrayBuffer(result.photo.uri)
-
     const fileExt = result.photo.uri.split('.').pop() ?? 'jpg';
     const fileName = `${Date.now()}.${fileExt}`;
 
@@ -84,8 +85,6 @@ export default function RestaurantScreen() {
       pathname: "/(modals)/addDish",
       params: { callbackId: id }
     });
-
-    console.log("button pressed");
   }
 
   return (
