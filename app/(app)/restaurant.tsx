@@ -1,15 +1,18 @@
 import FloatingButton from '@/components/FloatingButton';
+import { supabase } from '@/lib/supabase';
 import { registerCallback } from '@/utils/modalCallback';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+const EXPO_PUBLIC_BUCKET_URL = process.env.EXPO_PUBLIC_BUCKET_URL;
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 
 export default function RestaurantScreen() {
-  const { name, address, photoUrl, genre } = useLocalSearchParams();
+  const { restaurantId, name, address, photoUrl, genre } = useLocalSearchParams();
   const navigation = useNavigation();
+  const [result, setResult] = useState({});
 
   useEffect(() => {
     navigation.setOptions({
@@ -17,19 +20,72 @@ export default function RestaurantScreen() {
     });
   }, [name]);
 
+  useEffect(() => {
+    if(Object.keys(result).length !== 0){
+      addDish();
+    }
+  }, [result]);
+
+  async function uriToArrayBuffer(uri: string) {
+    const response = await fetch(uri);
+    return await response.arrayBuffer();
+  }
+
+
+  async function uploadImageToSupabaseBucket() {
+    if (Object.keys(result.photo).length === 0) return;
+
+    const arrayBuffer = await uriToArrayBuffer(result.photo.uri)
+    const fileExt = result.photo.uri.split('.').pop() ?? 'jpg';
+    const fileName = `${Date.now()}.${fileExt}`;
+
+    console.log(fileExt);
+    console.log(fileName);
+
+    const { data, error } = await supabase.storage
+      .from('dishes') // your bucket name
+      .upload(fileName, arrayBuffer, {
+        contentType: result.photo.mimeType ?? 'image/jpeg',
+      });
+
+    if (error) {
+      console.error('Upload error:', error);
+      return null;
+    }
+
+    return EXPO_PUBLIC_BUCKET_URL + data.path;
+  }
+
+  async function addDish() {
+    const imagePath = await uploadImageToSupabaseBucket();
+
+    const { data: { user } } = await supabase.auth.getUser();
+
+    const { data, error } = await supabase.from('dishes').insert([{
+      name: result.name,
+      rating: result.rating,
+      notes: result.notes,
+      photo: imagePath,
+      user_id: user.id,
+      restaurant_id: restaurantId,
+    }], { returning: 'minimal' });
+
+    if (error) {
+      console.log(error.message)
+    }
+  }
+
   function buttonPressed() {
     const id = Date.now().toString();
 
     registerCallback(id, (result: any) => {
-      console.log("Modal returned:", result);
+      setResult(result);
     });
 
     router.push({
       pathname: "/(modals)/addDish",
-      params: { callbackId: id }
+      params: { callbackId: id}
     });
-
-    console.log("button pressed");
   }
 
   return (
