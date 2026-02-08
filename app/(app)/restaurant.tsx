@@ -4,7 +4,7 @@ import { registerCallback } from '@/utils/modalCallback';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 
 const EXPO_PUBLIC_BUCKET_URL = process.env.EXPO_PUBLIC_BUCKET_URL;
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
@@ -21,7 +21,7 @@ export default function RestaurantScreen() {
   }, [name]);
 
   useEffect(() => {
-    if(Object.keys(result).length !== 0){
+    if (Object.keys(result).length !== 0) {
       addDish();
     }
   }, [result]);
@@ -56,6 +56,23 @@ export default function RestaurantScreen() {
     return EXPO_PUBLIC_BUCKET_URL + data.path;
   }
 
+  async function getDishes() {
+    const { data: { user } } = await supabase.auth.getUser();
+    const { data } = await supabase
+      .from('dishes')
+      .select('*')
+      .eq('user_id', user.id)
+      .eq('restaurant_id', restaurantId);
+      
+    console.log(data);
+
+    console.log(restaurantId, typeof restaurantId);
+    console.log(user.id);
+    //cbde7606-b5dd-4b7b-b2df-e3242a33a4e4
+    //ChIJJfAsgDmJUocRc8t0daKumo0
+
+  }
+
   async function addDish() {
     const imagePath = await uploadImageToSupabaseBucket();
 
@@ -84,7 +101,7 @@ export default function RestaurantScreen() {
 
     router.push({
       pathname: "/(modals)/addDish",
-      params: { callbackId: id}
+      params: { callbackId: id }
     });
   }
 
@@ -96,6 +113,7 @@ export default function RestaurantScreen() {
         <Text>{address}</Text>
         <Text>{genre}</Text>
       </View>
+      <Button title="get dishes" onPress={getDishes} />
       <FloatingButton onPress={buttonPressed}></FloatingButton>
     </>
   );
