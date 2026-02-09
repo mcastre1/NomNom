@@ -13,6 +13,7 @@ export default function RestaurantScreen() {
   const { restaurantId, name, address, photoUrl, genre } = useLocalSearchParams();
   const navigation = useNavigation();
   const [result, setResult] = useState({});
+  const [dishes, setDishes] = useState([]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -65,12 +66,7 @@ export default function RestaurantScreen() {
       .eq('restaurant_id', restaurantId);
       
     console.log(data);
-
-    console.log(restaurantId, typeof restaurantId);
-    console.log(user.id);
-    //cbde7606-b5dd-4b7b-b2df-e3242a33a4e4
-    //ChIJJfAsgDmJUocRc8t0daKumo0
-
+    setDishes(data);
   }
 
   async function addDish() {
