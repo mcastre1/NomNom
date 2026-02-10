@@ -1,10 +1,11 @@
+import DishCard from '@/components/DishCard';
 import FloatingButton from '@/components/FloatingButton';
 import { supabase } from '@/lib/supabase';
 import { registerCallback } from '@/utils/modalCallback';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, FlatList, StyleSheet, Text, View } from 'react-native';
 
 const EXPO_PUBLIC_BUCKET_URL = process.env.EXPO_PUBLIC_BUCKET_URL;
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
@@ -64,7 +65,7 @@ export default function RestaurantScreen() {
       .select('*')
       .eq('user_id', user.id)
       .eq('restaurant_id', restaurantId);
-      
+
     console.log(data);
     setDishes(data);
   }
@@ -109,6 +110,14 @@ export default function RestaurantScreen() {
         <Text>{address}</Text>
         <Text>{genre}</Text>
       </View>
+      <View style={styles.container}>
+        <FlatList style={styles.listStyle}
+          data={dishes}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <DishCard name={item.name} rating={item.rating} photoUrl={item.url} notes={item.notes}/>
+          )} />
+      </View>
       <Button title="get dishes" onPress={getDishes} />
       <FloatingButton onPress={buttonPressed}></FloatingButton>
     </>
@@ -127,5 +136,8 @@ const styles = StyleSheet.create({
     height: 120,
     borderRadius: 10,
     margin: 20,
+  },
+  listStyle: {
+    width: '100%',
   },
 })
