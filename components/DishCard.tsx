@@ -13,8 +13,9 @@ type Props = {
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 
 
-export default function RestaurantCard({name, rating, photoUrl, notes}: Props){
-    return (
+export default function DishCard({name, rating, photoUrl, notes}: Props){
+    console.log(photoUrl);
+    return (  
         <View style={styles.cardContainer}>
                 {photoUrl ? <Image style={styles.imageStyle} source={{uri: photoUrl}}/> :<Image style={styles.imageStyle} source={PlaceholderImage}/>}
             <View style={styles.infoContainer}>
