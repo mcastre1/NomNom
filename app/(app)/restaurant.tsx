@@ -66,13 +66,12 @@ export default function RestaurantScreen() {
       .eq('user_id', user.id)
       .eq('restaurant_id', restaurantId);
 
-    console.log(data);
     setDishes(data);
   }
 
   async function addDish() {
     const imagePath = await uploadImageToSupabaseBucket();
-
+    console.log(imagePath);
     const { data: { user } } = await supabase.auth.getUser();
 
     const { data, error } = await supabase.from('dishes').insert([{
@@ -115,7 +114,7 @@ export default function RestaurantScreen() {
           data={dishes}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <DishCard name={item.name} rating={item.rating} photoUrl={item.url} notes={item.notes}/>
+            <DishCard name={item.name} rating={item.rating} photoUrl={item.photo} notes={item.notes}/>
           )} />
       </View>
       <Button title="get dishes" onPress={getDishes} />
