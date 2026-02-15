@@ -8,10 +8,13 @@ const GOOGLE_API_KEY = process.env.EXPO_PUBLIC_GOOGLE_MAPS_API;
 
 export default function AboutScreen() {
   const [loading, setLoading] = useState(true)
+  const [data, setData] = useState([]);
 
+  // On screen load, retrieve near by restaurants.
+  // Then create a flat list with the retrieved data.
   useEffect(() => {
     async function loadRestaurants() {
-      // Ask for permission
+      // Ask for permission to use gps location.
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         console.log('Permission denied');
@@ -50,14 +53,12 @@ export default function AboutScreen() {
     loadRestaurants();
   }, []);
 
-
-
-  const [data, setData] = useState([]);
-
   return (
+    // Check to see if we are done retrieving data from maps api call
     loading ? (<View style={styles.loading}>
       <ActivityIndicator size="large" color="#000" />
     </View>) : (
+      // Create and show a flatlist of restaurant cards.
       <View style={styles.container}>
         <FlatList style={styles.listStyle}
           data={data}

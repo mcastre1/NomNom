@@ -10,40 +10,46 @@ import { Button, FlatList, StyleSheet, Text, View } from 'react-native';
 const EXPO_PUBLIC_BUCKET_URL = process.env.EXPO_PUBLIC_BUCKET_URL;
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 
+
+// Component/Page to show restaurant information and flatlist of dishes.
 export default function RestaurantScreen() {
   const { restaurantId, name, address, photoUrl, genre } = useLocalSearchParams();
   const navigation = useNavigation();
   const [result, setResult] = useState({});
   const [dishes, setDishes] = useState([]);
 
+  // On load change page's title to passed in restaurant name.
   useEffect(() => {
     navigation.setOptions({
       title: name,
     });
   }, [name]);
 
+  // Result gets set from addDish modal
+  // on result change, call addDish function.
   useEffect(() => {
     if (Object.keys(result).length !== 0) {
       addDish();
     }
   }, [result]);
 
+  // Change a uri to array, to upload image from addDish result
+  // to supabase.
   async function uriToArrayBuffer(uri: string) {
     const response = await fetch(uri);
     return await response.arrayBuffer();
   }
 
-
+  // Upload image to supabase bucket.
   async function uploadImageToSupabaseBucket() {
     if (Object.keys(result.photo).length === 0) return;
 
+    // Get file/photo 's info
     const arrayBuffer = await uriToArrayBuffer(result.photo.uri)
     const fileExt = result.photo.uri.split('.').pop() ?? 'jpg';
     const fileName = `${Date.now()}.${fileExt}`;
 
-    console.log(fileExt);
-    console.log(fileName);
-
+    // Upload to supabase bucket 'dishes'
     const { data, error } = await supabase.storage
       .from('dishes') // your bucket name
       .upload(fileName, arrayBuffer, {
@@ -55,25 +61,36 @@ export default function RestaurantScreen() {
       return null;
     }
 
+    // On succesful upload return the path to supabase bucket.
     return EXPO_PUBLIC_BUCKET_URL + data.path;
   }
 
+  // Retrieve all dishes where user id is the same as logged in user.
+  // and restaurant id is the same as the restaurant the user is currently looking at.
   async function getDishes() {
+    // Retrieve current users info.
     const { data: { user } } = await supabase.auth.getUser();
+
+    // Select query for dishes.
     const { data } = await supabase
       .from('dishes')
       .select('*')
       .eq('user_id', user.id)
       .eq('restaurant_id', restaurantId);
 
+    // Keep/update data used for flatlist in page.
     setDishes(data);
   }
 
+  // Function used to put new dish into supabase table dishes.
   async function addDish() {
+    // Upload image to supabase and retrieve correct path.
     const imagePath = await uploadImageToSupabaseBucket();
-    console.log(imagePath);
+
+    // Get current user's information.
     const { data: { user } } = await supabase.auth.getUser();
 
+    // Insert query to upload new dish into supabase table dishes.
     const { data, error } = await supabase.from('dishes').insert([{
       name: result.name,
       rating: result.rating,
@@ -88,6 +105,7 @@ export default function RestaurantScreen() {
     }
   }
 
+  // Function used to redirect into modal window, addDish.
   function buttonPressed() {
     const id = Date.now().toString();
 
