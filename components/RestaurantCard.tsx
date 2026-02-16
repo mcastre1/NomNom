@@ -1,4 +1,3 @@
-
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
@@ -45,7 +44,6 @@ export default function RestaurantCard({restaurantId, name, address, photoUrl, t
 const styles = StyleSheet.create({
     cardContainer: {
         flexDirection: 'row',
-        width: '100%',
         alignItems: 'center',
         backgroundColor: '#fff',
 
@@ -67,5 +65,6 @@ const styles = StyleSheet.create({
         width:80,
         height:80,
         borderRadius:10,
+        margin:5,
     },
 })

@@ -33,6 +33,11 @@ export default function RestaurantScreen() {
     }
   }, [result]);
 
+  // On Restaurant page load, retrieve dishes by user id and restaurant id.
+  useEffect(() => {
+    getDishes();
+  })
+
   // Change a uri to array, to upload image from addDish result
   // to supabase.
   async function uriToArrayBuffer(uri: string) {
@@ -120,24 +125,27 @@ export default function RestaurantScreen() {
   }
 
   return (
-    <>
-      <View style={styles.container}>
-        {photoUrl ? <Image style={styles.imageStyle} source={{ uri: photoUrl }} /> : <Image style={styles.imageStyle} source={PlaceholderImage} />}
-        <Text>{name}</Text>
-        <Text>{address}</Text>
-        <Text>{genre}</Text>
-      </View>
-      <View style={styles.container}>
-        <FlatList style={styles.listStyle}
-          data={dishes}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <DishCard name={item.name} rating={item.rating} photoUrl={item.photo} notes={item.notes}/>
-          )} />
+    <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
+        <View style={[styles.container, { flex: 0.35 }]}>
+          {photoUrl ? <Image style={styles.imageStyle} source={{ uri: photoUrl }} /> : <Image style={styles.imageStyle} source={PlaceholderImage} />}
+          <Text>{name}</Text>
+          <Text>{address}</Text>
+          <Text>{genre}</Text>
+        </View>
+        <View style={[styles.container, { flex: 0.65 }]}>
+          <FlatList style={styles.listStyle}
+            data={dishes}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <DishCard name={item.name} rating={item.rating} photoUrl={item.photo} notes={item.notes} />
+            )} />
+        </View>
       </View>
       <Button title="get dishes" onPress={getDishes} />
+
       <FloatingButton onPress={buttonPressed}></FloatingButton>
-    </>
+    </View>
   );
 }
 
