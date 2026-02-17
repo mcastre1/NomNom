@@ -13,14 +13,14 @@ type Props = {
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 
 
-export default function RestaurantCard({name, rating, photoUrl, notes}: Props){
-    return (
+export default function DishCard({name, rating, photoUrl, notes}: Props){
+    return (  
         <View style={styles.cardContainer}>
                 {photoUrl ? <Image style={styles.imageStyle} source={{uri: photoUrl}}/> :<Image style={styles.imageStyle} source={PlaceholderImage}/>}
             <View style={styles.infoContainer}>
-                <Text>{name}</Text>
-                <Text>{rating}</Text>
-                <Text>{notes}</Text>
+                <Text><Text style={{fontWeight:'bold'}}>Name:</Text> {name}</Text>
+                <Text><Text style={{fontWeight:'bold'}}>Rating:</Text> {rating}</Text>
+                <Text><Text style={{fontWeight:'bold'}}>Comments:</Text> {notes}</Text>
             </View>
         </View>
     )
@@ -29,7 +29,6 @@ export default function RestaurantCard({name, rating, photoUrl, notes}: Props){
 const styles = StyleSheet.create({
     cardContainer: {
         flexDirection: 'row',
-        width: '100%',
         alignItems: 'center',
         backgroundColor: '#fff',
 
@@ -51,5 +50,6 @@ const styles = StyleSheet.create({
         width:80,
         height:80,
         borderRadius:10,
+        margin:5,
     },
 })
