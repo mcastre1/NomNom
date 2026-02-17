@@ -5,7 +5,7 @@ import { registerCallback } from '@/utils/modalCallback';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Button, FlatList, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
 
 const EXPO_PUBLIC_BUCKET_URL = process.env.EXPO_PUBLIC_BUCKET_URL;
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
@@ -148,7 +148,6 @@ export default function RestaurantScreen() {
         </View>)}
 
       </View>
-      <Button title="get dishes" onPress={getDishes} />
 
       <FloatingButton onPress={buttonPressed}></FloatingButton>
     </View>

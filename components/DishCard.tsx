@@ -13,14 +13,25 @@ type Props = {
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 
 
-export default function DishCard({name, rating, photoUrl, notes}: Props){
-    return (  
+export default function DishCard({ name, rating, photoUrl, notes }: Props) {
+    const count = 5;
+    const items = Array.from({ length: count });
+    return (
         <View style={styles.cardContainer}>
-                {photoUrl ? <Image style={styles.imageStyle} source={{uri: photoUrl}}/> :<Image style={styles.imageStyle} source={PlaceholderImage}/>}
+            {photoUrl ? <Image style={styles.imageStyle} source={{ uri: photoUrl }} /> : <Image style={styles.imageStyle} source={PlaceholderImage} />}
             <View style={styles.infoContainer}>
-                <Text><Text style={{fontWeight:'bold'}}>Name:</Text> {name}</Text>
-                <Text><Text style={{fontWeight:'bold'}}>Rating:</Text> {rating}</Text>
-                <Text><Text style={{fontWeight:'bold'}}>Comments:</Text> {notes}</Text>
+                <Text><Text style={{ fontWeight: 'bold' }}>Name:</Text> {name}</Text>
+                <Text style={{ fontWeight: 'bold' }}>Rating:</Text>
+                <Text>
+                    {items.map((_, i) => (
+                        i < Number(rating)
+                            ? <Text key={i}>⭐</Text>   // filled star
+                            : <Text key={i}>★</Text>   // empty star
+                    ))}
+
+                </Text>
+
+                <Text><Text style={{ fontWeight: 'bold' }}>Comments:</Text> {notes}</Text>
             </View>
         </View>
     )
@@ -32,24 +43,24 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff',
 
-        borderRadius:16,
-        margin:10,
-        elevation:6,
-        overflow:'hidden',
+        borderRadius: 16,
+        margin: 10,
+        elevation: 6,
+        overflow: 'hidden',
     },
-    infoContainer:{
-        flex:1,
-        flexDirection:'column',
-        justifyContent:'center',
+    infoContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
     },
-    infoStyle:{
-        color:'#000000ff',
-        fontSize:28,
+    infoStyle: {
+        color: '#000000ff',
+        fontSize: 28,
     },
-    imageStyle:{
-        width:80,
-        height:80,
-        borderRadius:10,
-        margin:5,
+    imageStyle: {
+        width: 80,
+        height: 80,
+        borderRadius: 10,
+        margin: 5,
     },
 })

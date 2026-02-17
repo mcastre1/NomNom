@@ -16,7 +16,6 @@ export default function Signin() {
         if (error) {
             Alert.alert(error.message)
         } else {
-            Alert.alert("good credentials")
             router.replace("/account")  //Manual redirect, couldnt get automatic redirect working
         }
     }
