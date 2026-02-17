@@ -5,7 +5,7 @@ import { registerCallback } from '@/utils/modalCallback';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Button, FlatList, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Button, FlatList, StyleSheet, Text, View } from 'react-native';
 
 const EXPO_PUBLIC_BUCKET_URL = process.env.EXPO_PUBLIC_BUCKET_URL;
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
@@ -17,6 +17,7 @@ export default function RestaurantScreen() {
   const navigation = useNavigation();
   const [result, setResult] = useState({});
   const [dishes, setDishes] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // On load change page's title to passed in restaurant name.
   useEffect(() => {
@@ -35,8 +36,9 @@ export default function RestaurantScreen() {
 
   // On Restaurant page load, retrieve dishes by user id and restaurant id.
   useEffect(() => {
+    setLoading(true);
     getDishes();
-  })
+  }, [restaurantId])
 
   // Change a uri to array, to upload image from addDish result
   // to supabase.
@@ -85,6 +87,7 @@ export default function RestaurantScreen() {
 
     // Keep/update data used for flatlist in page.
     setDishes(data);
+    setLoading(false);
   }
 
   // Function used to put new dish into supabase table dishes.
@@ -133,14 +136,17 @@ export default function RestaurantScreen() {
           <Text>{address}</Text>
           <Text>{genre}</Text>
         </View>
-        <View style={[styles.container, { flex: 0.65 }]}>
+        {loading ? (<View style={styles.loading}>
+          <ActivityIndicator size="large" color="#000" />
+        </View>) : (<View style={[styles.container, { flex: 0.65 }]}>
           <FlatList style={styles.listStyle}
             data={dishes}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <DishCard name={item.name} rating={item.rating} photoUrl={item.photo} notes={item.notes} />
             )} />
-        </View>
+        </View>)}
+
       </View>
       <Button title="get dishes" onPress={getDishes} />
 
@@ -165,4 +171,9 @@ const styles = StyleSheet.create({
   listStyle: {
     width: '100%',
   },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 })

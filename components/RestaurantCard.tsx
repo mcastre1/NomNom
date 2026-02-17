@@ -20,7 +20,7 @@ export default function RestaurantCard({restaurantId, name, address, photoUrl, t
         // To show a detail screen about the restaurant.
         <Pressable onPress={
             ()=> router.push({
-                pathname: '/(app)/restaurant',
+                pathname: '/(app)/restaurant/[restaurantId]',
                 params: {
                     restaurantId: restaurantId,
                     name: name,
