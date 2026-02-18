@@ -1,0 +1,33 @@
+{
+  "cli": {
+    "version": ">= 18.0.1",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_GOOGLE_MAPS_API": "AIzaSyAtrvII5_W6ms7VM7j_mbatXjxySgSO9yo",
+        "EXPO_PUBLIC_BUCKET_URL": "https://aybqpizxpbbafoqnlgbm.supabase.co/storage/v1/object/public/dishes/",
+        "EXPO_PUBLIC_BASE_URL": "https://aybqpizxpbbafoqnlgbm.supabase.co",
+        "EXPO_PUBLIC_PUBLISH_KEY": "sb_publishable_uX2VSulYR_IoQUatz_3IZA_wS7sVOFl"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_GOOGLE_MAPS_API": "AIzaSyAtrvII5_W6ms7VM7j_mbatXjxySgSO9yo",
+        "EXPO_PUBLIC_BUCKET_URL": "https://aybqpizxpbbafoqnlgbm.supabase.co/storage/v1/object/public/dishes/",
+        "EXPO_PUBLIC_BASE_URL": "https://aybqpizxpbbafoqnlgbm.supabase.co",
+        "EXPO_PUBLIC_PUBLISH_KEY": "sb_publishable_uX2VSulYR_IoQUatz_3IZA_wS7sVOFl"
+      }
+    },
+    "production": {
+      "autoIncrement": true
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
