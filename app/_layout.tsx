@@ -27,9 +27,6 @@ export default function RootLayout() {
       setLoading(false)
     })
     supabase.auth.onAuthStateChange((_event, session) => {
-      console.log("Auth event:", _event)
-      console.log("SESSION:", session)
-      console.log(session?.user)
       setSession(session)
     })
   }, [])
