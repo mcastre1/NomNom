@@ -4,18 +4,19 @@
     "slug": "NomNom",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/android/ic_launcher.png",
     "scheme": "nomnom",
     "userInterfaceStyle": "automatic",
     "ios": {
+      "icon": "./assets/images/ios/ios_icon.png",
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "foregroundImage": "./assets/images/android/ic_launcher_foreground.png",
+        "backgroundImage": "./assets/images/android/ic_launcher_background.png",
+        "monochromeImage": "./assets/images/android/ic_launcher_monochrome.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
@@ -23,7 +24,7 @@
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/web/icon-maskable.png"
     },
     "plugins": [
       "expo-router",

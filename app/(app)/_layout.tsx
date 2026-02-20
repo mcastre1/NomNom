@@ -30,9 +30,6 @@ export default function appTabs() {
                     )
                 }} />
 
-            
-            <Tabs.Screen name="restaurant" options={{href:null}}/>
-
             <Tabs.Screen
                 name="restaurant/[restaurantId]"
                 options={{
