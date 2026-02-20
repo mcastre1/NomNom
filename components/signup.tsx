@@ -25,9 +25,9 @@ export default function SignUp() {
     return (
         <View style={styles.container}>
             <Text style={styles.label}>Email:</Text>
-            <TextInput style={styles.input} value={email} placeholder="Email" onChangeText={setEmail} />
+            <TextInput style={styles.input} placeholder="Email" onChangeText={setEmail} />
             <Text style={styles.label}>Password:</Text>
-            <TextInput style={styles.input} secureTextEntry value={password} placeholder="*********" onChangeText={setPassword} />
+            <TextInput style={styles.input} secureTextEntry placeholder="*********" onChangeText={setPassword} />
             <TouchableOpacity style={styles.button} onPress={signUpWithEmail}>
                 <Text style={styles.buttonText}>Register</Text>
             </TouchableOpacity>
