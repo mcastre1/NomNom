@@ -23,9 +23,9 @@ export default function Signin() {
     return (
         <View style={styles.container}>
             <Text style={styles.label}>Email:</Text>
-            <TextInput style={styles.input} placeholder="Email" onChangeText={setEmail} />
+            <TextInput style={styles.input} placeholder="Email"  placeholderTextColor="#746649" onChangeText={setEmail} />
             <Text style={styles.label}>Password:</Text>
-            <TextInput style={styles.input} secureTextEntry placeholder="*********" onChangeText={setPassword} />
+            <TextInput style={styles.input} secureTextEntry placeholder="*********" placeholderTextColor="#746649" onChangeText={setPassword} />
             <TouchableOpacity style={styles.button} onPress={signInWithEmail}>
                 <Text style={styles.buttonText}>Log In</Text>
             </TouchableOpacity>
