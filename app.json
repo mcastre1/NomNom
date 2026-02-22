@@ -9,7 +9,11 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/images/ios/ios_icon.png",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mcastre1.nomnom",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
