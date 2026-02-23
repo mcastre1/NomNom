@@ -6,6 +6,7 @@ export default function ModalLayout() {
       presentation: "modal",
       headerStyle: { backgroundColor: 'black' },
       headerTintColor: "white",
+      title: 'Add a Dish',
     }} />
   );
 }
