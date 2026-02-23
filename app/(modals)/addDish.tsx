@@ -1,23 +1,34 @@
 import { resolveCallback } from "@/utils/modalCallback";
-import { Picker } from "@react-native-picker/picker";
 import * as ImagePicker from 'expo-image-picker';
 import { router, useLocalSearchParams } from "expo-router";
-import { useState } from "react";
-import { Button, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput } from 'react-native';
+import { useEffect, useState } from "react";
+import { BackHandler, Button, Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default function SelectDishModal() {
   const { callbackId } = useLocalSearchParams();
   const [name, setName] = useState("");
-  const [rating, setRating] = useState(1);
+
+  const [starRating, setStarRating] = useState(1) // final chosen star rating
+
   const [note, setNote] = useState("");
   const [photo, setPhoto] = useState({});
 
   const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 
+  useEffect(() => {
+    const sub = BackHandler.addEventListener("hardwareBackPress", () => {
+      router.dismiss();
+      return true;
+    });
+
+    return () => sub.remove();
+  }, []);
+
+
   function submit() {
     resolveCallback(callbackId, {
       name: name,
-      rating: rating,
+      rating: starRating,
       notes: note,
       photo: photo,
     });
@@ -41,21 +52,38 @@ export default function SelectDishModal() {
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={180}
+      keyboardVerticalOffset={20}
     >
-      <ScrollView style={{flex:1}} contentContainerStyle={styles.container}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.container}>
         {photo ? <Image style={styles.imageStyle} source={{ uri: photo.uri }} /> : <Image style={styles.imageStyle} source={PlaceholderImage} />}
         <Button title="Pick Image" onPress={pickImage} />
         <Text style={styles.label}>Name:</Text>
         <TextInput style={styles.input} onChangeText={setName} />
         <Text style={styles.label}>Rating:</Text>
-        <Picker style={styles.picker} selectedValue={rating} onValueChange={(value) => setRating(value)}>
-          <Picker.Item label="1" value={1} />
-          <Picker.Item label="2" value={2} />
-          <Picker.Item label="3" value={3} />
-          <Picker.Item label="4" value={4} />
-          <Picker.Item label="5" value={5} />
-        </Picker>
+
+        {/*Creating the star rating element.*/}
+        <View style={{ flexDirection: 'row', gap: 6 }}>
+          {[...Array(5)].map((_, i) => {
+            const starValue = i + 1; // Value given to current star
+            const isSelected = starValue <= starRating;
+
+            return (
+              <Pressable key={i}
+                onPress={() =>
+                  setStarRating(starValue)}>
+                <Text
+                  style={[
+                    styles.star,
+                    isSelected && styles.selectedStar,
+                  ]}
+                >
+                  ★
+                </Text>
+              </Pressable>
+            )
+          })}
+        </View>
+
         <Text style={styles.label}>Note:</Text>
         <TextInput style={styles.input} onChangeText={setNote} />
         <Button title="Save" onPress={submit} />
@@ -106,5 +134,16 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 10,
   },
+  star: {
+    fontSize: 32,
+    color: "#ccc",
+  },
+  previewStar: {
+    color: "#f5d48b", // soft preview color
+  },
+  selectedStar: {
+    color: "#f1b000", // bright selected color
+  },
+
 
 });
