@@ -32,6 +32,8 @@ export default function RestaurantScreen() {
     if (Object.keys(result).length !== 0) {
       addDish();
     }
+    setLoading(true);
+    getDishes();
   }, [result]);
 
   // On Restaurant page load, retrieve dishes by user id and restaurant id.
