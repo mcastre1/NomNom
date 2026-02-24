@@ -11,7 +11,7 @@ export default function SelectDishModal() {
   const [starRating, setStarRating] = useState(1) // final chosen star rating
 
   const [note, setNote] = useState("");
-  const [photo, setPhoto] = useState({});
+  const [photo, setPhoto] = useState(null);
 
   const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 
@@ -85,7 +85,7 @@ export default function SelectDishModal() {
         </View>
 
         <Text style={styles.label}>Note:</Text>
-        <TextInput style={styles.input} onChangeText={setNote} />
+        <TextInput style={[styles.input, styles.multiline]} onChangeText={setNote} multiline numberOfLines={4} />
         <Button title="Save" onPress={submit} />
       </ScrollView>
     </KeyboardAvoidingView>);
@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     fontSize: 16,
     width: "100%",
+    textAlignVertical: "top",
   },
   picker: {
     width: "100%",
@@ -144,6 +145,9 @@ const styles = StyleSheet.create({
   selectedStar: {
     color: "#f1b000", // bright selected color
   },
+  multiline: {
+    minHeight: 100,
+  }
 
 
 });
