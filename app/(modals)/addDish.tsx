@@ -1,4 +1,5 @@
 import { resolveCallback } from "@/utils/modalCallback";
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import * as ImagePicker from 'expo-image-picker';
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
@@ -14,6 +15,8 @@ export default function SelectDishModal() {
   const [photo, setPhoto] = useState(null);
 
   const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
+
+  const { showActionSheetWithOptions } = useActionSheet();
 
   useEffect(() => {
     const sub = BackHandler.addEventListener("hardwareBackPress", () => {
@@ -34,6 +37,41 @@ export default function SelectDishModal() {
     });
 
     router.dismiss();
+  }
+
+  async function photoPicker() {
+    const options = ['Take Photo', 'Choose from Library', 'Cancel'];
+    const cancelButtonIndex = 2;
+
+    showActionSheetWithOptions(
+      { options, cancelButtonIndex },
+      async (buttonIndex) => {
+        let result;
+
+        if (buttonIndex === 0) {
+          result = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            quality: 1
+          });
+
+          console.log(result);
+        }
+
+        if (buttonIndex === 1) {
+          result = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: true,
+            quality: 1,
+          });
+          console.log(result);
+        }
+
+        console.log(result);
+
+        if (!result || result.canceled) return;
+
+        
+      }
+    );
   }
 
   async function pickImage() {
@@ -57,6 +95,7 @@ export default function SelectDishModal() {
       <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.container}>
         {photo ? <Image style={styles.imageStyle} source={{ uri: photo.uri }} /> : <Image style={styles.imageStyle} source={PlaceholderImage} />}
         <Button title="Pick Image" onPress={pickImage} />
+        <Button title="more picks" onPress={photoPicker} />
         <Text style={styles.label}>Name:</Text>
         <TextInput style={styles.input} onChangeText={setName} />
         <Text style={styles.label}>Rating:</Text>

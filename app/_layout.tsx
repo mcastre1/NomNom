@@ -1,3 +1,4 @@
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { Session } from "@supabase/supabase-js";
 import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
@@ -31,16 +32,19 @@ export default function RootLayout() {
     })
   }, [])
 
-  if(loading){
+  if (loading) {
     return null
   }
 
-  return (<Stack screenOptions={{ headerShown: false }}>
-      {session ? (
-        <Stack.Screen name="(app)" />
-      ) : (
-        <Stack.Screen name="(auth)" />
-      )}
-    </Stack>
+  return (
+    <ActionSheetProvider>
+      <Stack screenOptions={{ headerShown: false }}>
+        {session ? (
+          <Stack.Screen name="(app)" />
+        ) : (
+          <Stack.Screen name="(auth)" />
+        )}
+      </Stack>
+    </ActionSheetProvider>
   );
 }
