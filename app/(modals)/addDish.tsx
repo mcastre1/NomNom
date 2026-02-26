@@ -53,8 +53,6 @@ export default function SelectDishModal() {
             allowsEditing: true,
             quality: 1
           });
-
-          console.log(result);
         }
 
         if (buttonIndex === 1) {
@@ -62,13 +60,12 @@ export default function SelectDishModal() {
             allowsEditing: true,
             quality: 1,
           });
-          console.log(result);
         }
 
-        console.log(result);
 
         if (!result || result.canceled) return;
 
+        setPhoto(result.assets[0]);
         
       }
     );
