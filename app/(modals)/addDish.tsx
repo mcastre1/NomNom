@@ -91,8 +91,7 @@ export default function SelectDishModal() {
     >
       <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.container}>
         {photo ? <Image style={styles.imageStyle} source={{ uri: photo.uri }} /> : <Image style={styles.imageStyle} source={PlaceholderImage} />}
-        <Button title="Pick Image" onPress={pickImage} />
-        <Button title="more picks" onPress={photoPicker} />
+        <Button title="Upload Image" onPress={photoPicker} />
         <Text style={styles.label}>Name:</Text>
         <TextInput style={styles.input} onChangeText={setName} />
         <Text style={styles.label}>Rating:</Text>
@@ -148,6 +147,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     width: "100%",
     textAlignVertical: "top",
+    color:"black",
   },
   picker: {
     width: "100%",
