@@ -87,7 +87,7 @@ export default function SelectDishModal() {
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={20}
+      keyboardVerticalOffset={80}
     >
       <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.container}>
         {photo ? <Image style={styles.imageStyle} source={{ uri: photo.uri }} /> : <Image style={styles.imageStyle} source={PlaceholderImage} />}
