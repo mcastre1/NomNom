@@ -1,11 +1,12 @@
 import * as Location from 'expo-location';
 import { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 export default function map() {
     const [region, setRegion] = useState(null);
     const [restaurants, setRestaurants] = useState([]);
+    const [showSearchButton, setShowSearchButton] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -24,38 +25,69 @@ export default function map() {
     }, []);
 
     useEffect(() => {
+        if (region) setShowSearchButton(true);
+    }, [region]);
+
+
+    const fetchRestaurants = async () => {
         if (!region) return;
 
-        const fetchRestaurants = async () => {
-            const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${region.latitude},${region.longitude}&radius=1500&type=restaurant&key=${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API}`;
+        const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${region.latitude},${region.longitude}&radius=1500&type=restaurant&key=${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API}`;
 
-            const res = await fetch(url);
-            const json = await res.json();
-            setRestaurants(json.results);
+        const res = await fetch(url);
+        const json = await res.json();
+        setRestaurants(json.results);
 
-        };
+    };
 
-        fetchRestaurants();
-    }, [region]);
 
     const handleRestaurantPress = (placeId: string) => {
         console.log("Restaurant id pressed: ", placeId);
     };
 
 
+    const handleSearchInRegion = async () => {
+        if (!region) return;
+
+        const { latitude, longitude } = region;
+
+        await fetchRestaurants();
+
+        setShowSearchButton(false); // hide button after search
+    };
+
+
 
     return (
         <View style={{ flex: 1 }}>
+            {showSearchButton && (
+                <TouchableOpacity
+                    style={{
+                        position: 'absolute',
+                        top: 20,
+                        alignSelf: 'center',
+                        backgroundColor: 'white',
+                        padding: 10,
+                        borderRadius: 8,
+                        elevation: 5,
+                        zIndex: 999,
+                    }}
+                    onPress={handleSearchInRegion}
+                >
+                    <Text>Search This Area</Text>
+                </TouchableOpacity>
+            )}
+
             {region && (
                 <MapView
                     style={{ flex: 1, backgroundColor: "red" }}
                     initialRegion={region}
-                    onRegionChangeComplete={(r) => setRegion(r)}
+                    onRegionChangeComplete={(r) => {
+                        setRegion(r);
+                    }
+                    }
                     onPoiClick={(e) => {
                         const { placeId, name, coordinate } = e.nativeEvent;
-                        console.log("Built‑in POI clicked:", placeId, name, coordinate);
-
-                        // You can reuse your handler:
                         handleRestaurantPress(placeId);
                     }}
 
