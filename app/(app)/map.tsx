@@ -1,12 +1,13 @@
 import * as Location from 'expo-location';
 import { useEffect, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 export default function map() {
     const [region, setRegion] = useState(null);
     const [restaurants, setRestaurants] = useState([]);
     const [showSearchButton, setShowSearchButton] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         (async () => {
@@ -23,6 +24,11 @@ export default function map() {
             });
         })();
     }, []);
+
+    const handleMapReady = () => {
+        setLoading(false);
+        setShowSearchButton(true);
+    }
 
     useEffect(() => {
         if (region) setShowSearchButton(true);
@@ -60,7 +66,24 @@ export default function map() {
 
     return (
         <View style={{ flex: 1 }}>
-            {showSearchButton && (
+            {loading && (
+                <View style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'white',
+                    zIndex: 999,
+                }}>
+                    <ActivityIndicator size="large" color="#000" />
+                    <Text style={{ marginTop: 10 }}>Loading map...</Text>
+                </View>
+            )}
+
+            {showSearchButton && !loading && (
                 <TouchableOpacity
                     style={{
                         position: 'absolute',
@@ -80,17 +103,14 @@ export default function map() {
 
             {region && (
                 <MapView
-                    style={{ flex: 1, backgroundColor: "red" }}
+                    style={{ flex: 1 }}
                     initialRegion={region}
-                    onRegionChangeComplete={(r) => {
-                        setRegion(r);
-                    }
-                    }
+                    onMapReady={handleMapReady}
+                    onRegionChangeComplete={(r) => setRegion(r)}
                     onPoiClick={(e) => {
-                        const { placeId, name, coordinate } = e.nativeEvent;
-                        handleRestaurantPress(placeId);
+                        const { placeId } = e.nativeEvent;
+                        console.log("Restaurant id pressed: ", placeId);
                     }}
-
                 >
                     {restaurants.map((r) => (
                         <Marker
@@ -101,12 +121,12 @@ export default function map() {
                             }}
                             title={r.name}
                             description={r.vicinity}
-                            onPress={() => handleRestaurantPress(r.place_id)}
                         />
                     ))}
                 </MapView>
             )}
         </View>
     );
+
 
 }
