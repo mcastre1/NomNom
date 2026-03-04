@@ -121,6 +121,7 @@ export default function map() {
                             }}
                             title={r.name}
                             description={r.vicinity}
+                            onPress={() => handleRestaurantPress(r.place_id)}
                         />
                     ))}
                 </MapView>

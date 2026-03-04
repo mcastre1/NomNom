@@ -24,11 +24,14 @@ export default function appTabs() {
                 }} />
 
             <Tabs.Screen name="map"
-            options={{
-                title: 'Map',
-            }}/>
+                options={{
+                    title: 'Map',
+                    tabBarIcon: ({ color, focused }) => (
+                        <Ionicons name={focused ? 'map' : 'map-outline'} color={color} size={24}></Ionicons>
+                    )
+                }} />
 
-            
+
             <Tabs.Screen name="account"
                 options={{
                     title: 'Account',
@@ -37,7 +40,7 @@ export default function appTabs() {
                     )
                 }} />
 
-            
+
 
             <Tabs.Screen
                 name="restaurant/[restaurantId]"
