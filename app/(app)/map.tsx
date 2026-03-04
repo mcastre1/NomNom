@@ -11,6 +11,7 @@ export default function map() {
     const [showSearchButton, setShowSearchButton] = useState(false);
     const [loading, setLoading] = useState(true);
     const [selectedPoi, setSelectedPoi] = useState(null);
+    const [chosenRestaurant, setChosenRestaurant] = useState(null);
 
 
     useEffect(() => {
@@ -51,8 +52,15 @@ export default function map() {
     };
 
 
-    const handleRestaurantPress = (placeId: string) => {
+    async function handleRestaurantPress(placeId: string) {
         console.log("Restaurant id pressed: ", placeId);
+        const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,formatted_address,geometry,photos,types&key=${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API}`;
+
+        const response = await fetch(url);
+        const json = await response.json();
+
+        console.log(json);
+
     };
 
 
@@ -113,7 +121,7 @@ export default function map() {
                     onRegionChangeComplete={(r) => setRegion(r)}
                     onPoiClick={(e) => {
                         const { placeId, name, coordinate } = e.nativeEvent;
-                        
+
                         handleRestaurantPress(placeId);
 
                         setSelectedPoi({
