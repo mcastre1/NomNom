@@ -1,3 +1,4 @@
+import RestaurantCard from '@/components/RestaurantCard';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as Location from 'expo-location';
 import { useEffect, useState } from 'react';
@@ -11,7 +12,7 @@ export default function map() {
     const [showSearchButton, setShowSearchButton] = useState(false);
     const [loading, setLoading] = useState(true);
     const [selectedPoi, setSelectedPoi] = useState(null);
-    const [chosenRestaurant, setChosenRestaurant] = useState(null);
+    const [chosenRestaurant, setChosenRestaurant] = useState({});
 
 
     useEffect(() => {
@@ -58,8 +59,19 @@ export default function map() {
 
         const response = await fetch(url);
         const json = await response.json();
+        const result = json.result;
+  
+        const mapped = {
+            id: placeId,
+            name: result.name,
+            address: result["formatted_address"],
+            photoRef: result.photos?.[0]?.photo_reference,
+            photoUrl: result.photos?.[0] ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${result.photos[0].photo_reference}&key=${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API}` : null,
+            types: result.types,
+        }
 
-        console.log(json);
+        setChosenRestaurant(mapped);
+        console.log(result);
 
     };
 
@@ -173,6 +185,10 @@ export default function map() {
                     )}
 
                 </MapView>
+            )}
+            {chosenRestaurant && Object.keys(chosenRestaurant).length > 0 && (
+                <RestaurantCard restaurantId={chosenRestaurant.id} name={chosenRestaurant.name} address={chosenRestaurant.address} photoUrl={chosenRestaurant.photoUrl} types={chosenRestaurant.types} />
+
             )}
         </View>
     );
