@@ -15,6 +15,7 @@ export default function map() {
     const [chosenRestaurant, setChosenRestaurant] = useState({});
 
 
+    // on load get current position and set the viewable map region.
     useEffect(() => {
         (async () => {
             const { status } = await Location.requestForegroundPermissionsAsync();
@@ -31,16 +32,19 @@ export default function map() {
         })();
     }, []);
 
+    // Helper function to set loading to false and show the search button
+    // on map ready.
     const handleMapReady = () => {
         setLoading(false);
         setShowSearchButton(true);
     }
 
+    // When region changes, we show the search button.
     useEffect(() => {
         if (region) setShowSearchButton(true);
     }, [region]);
 
-
+    // Function to fetch restaurants in the viewable map region.
     const fetchRestaurants = async () => {
         if (!region) return;
 
@@ -52,7 +56,7 @@ export default function map() {
 
     };
 
-
+    // on Restaurant press, we keep track of restaurant and show it on bottom of screen as restaurant card.
     async function handleRestaurantPress(placeId: string) {
         console.log("Restaurant id pressed: ", placeId);
         const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,formatted_address,geometry,photos,types&key=${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API}`;
@@ -71,15 +75,11 @@ export default function map() {
         }
 
         setChosenRestaurant(mapped);
-        console.log(result);
-
     };
 
-
+    // Called from button to search region.
     const handleSearchInRegion = async () => {
         if (!region) return;
-
-        const { latitude, longitude } = region;
 
         await fetchRestaurants();
 
