@@ -86,8 +86,6 @@ export default function map() {
         setShowSearchButton(false); // hide button after search
     };
 
-
-
     return (
         <View style={{ flex: 1 }}>
             {loading && (
