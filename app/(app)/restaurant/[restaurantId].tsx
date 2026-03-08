@@ -147,7 +147,7 @@ export default function RestaurantScreen() {
           {photoUrl ? <Image style={styles.imageStyle} source={{ uri: photoUrl }} /> : <Image style={styles.imageStyle} source={PlaceholderImage} />}
           <Text>{name}</Text>
           <TouchableOpacity onPress={() => openDirections(lat, lng)}>
-            <Text>{address}</Text>
+            <Text style={styles.addressText}>{address}</Text>
           </TouchableOpacity>
           <Text>{genre}</Text>
         </View>
@@ -189,5 +189,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  }
+  },
+  addressText: {
+    fontSize: 14,
+    color: '#2a32a0',
+  },
+
 })
