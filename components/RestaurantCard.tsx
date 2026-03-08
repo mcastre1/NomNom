@@ -3,6 +3,9 @@ import { router } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 type Props = {
+    lat: number;
+    lng: number; 
+    placeId: string;
     restaurantId: string;
     name: string;
     address: string;
@@ -10,11 +13,10 @@ type Props = {
     types: Array<string>;
 };
 
-
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 
 
-export default function RestaurantCard({restaurantId, name, address, photoUrl, types}: Props){
+export default function RestaurantCard({lat, lng, placeId, restaurantId, name, address, photoUrl, types}: Props){
     return (
         // Pressable will route us to restaurant and pass in some parameters about the clicked restaurant.
         // To show a detail screen about the restaurant.
@@ -22,6 +24,9 @@ export default function RestaurantCard({restaurantId, name, address, photoUrl, t
             ()=> router.push({
                 pathname: '/(app)/restaurant/[restaurantId]',
                 params: {
+                    lat:lat,
+                    lng:lng,
+                    placeId: placeId,
                     restaurantId: restaurantId,
                     name: name,
                     address: address,

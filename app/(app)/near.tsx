@@ -24,7 +24,7 @@ export default function AboutScreen() {
       // get current location
       let location = await Location.getLastKnownPositionAsync();
 
-      if (!location){
+      if (!location) {
         location = await Location.getCurrentPositionAsync({});
       }
 
@@ -41,7 +41,10 @@ export default function AboutScreen() {
         id: place.place_id,
         name: place.name,
         address: place.vicinity,
-        location: place.geometry.location,
+        location: {
+          lat: place.geometry.location?.lat ?? 0,
+          lng: place.geometry.location?.lng ?? 0,
+        },
         photoRef: place.photos?.[0]?.photo_reference,
         photoUrl: place.photos?.[0] ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place.photos[0].photo_reference}&key=${GOOGLE_API_KEY}` : null,
         types: place.types,
@@ -64,7 +67,7 @@ export default function AboutScreen() {
           data={data}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <RestaurantCard restaurantId={item.id} name={item.name} address={item.address} photoUrl={item.photoUrl} types={item.types}/>
+            <RestaurantCard lat={item.location.lat} lng={item.location.lng} placeId={item.id} restaurantId={item.id} name={item.name} address={item.address} photoUrl={item.photoUrl} types={item.types} />
           )} />
       </View>
     )

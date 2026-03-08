@@ -3,9 +3,11 @@ import FloatingButton from '@/components/FloatingButton';
 import { supabase } from '@/lib/supabase';
 import { registerCallback } from '@/utils/modalCallback';
 import { Image } from 'expo-image';
+import * as Linking from 'expo-linking';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
 
 const EXPO_PUBLIC_BUCKET_URL = process.env.EXPO_PUBLIC_BUCKET_URL;
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
@@ -13,7 +15,7 @@ const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 
 // Component/Page to show restaurant information and flatlist of dishes.
 export default function RestaurantScreen() {
-  const { restaurantId, name, address, photoUrl, genre } = useLocalSearchParams();
+  const { lat, lng, placeId, restaurantId, name, address, photoUrl, genre } = useLocalSearchParams();
   const navigation = useNavigation();
   const [result, setResult] = useState({});
   const [dishes, setDishes] = useState([]);
@@ -129,13 +131,24 @@ export default function RestaurantScreen() {
     });
   }
 
+  const openDirections = (lat: string, lng: string) => {
+    const latn = Number(lat);
+    const lngn = Number(lng);
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${latn},${lngn}&travelmode=driving`;
+
+    Linking.openURL(url);
+  };
+
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
         <View style={[styles.container, { flex: 0.35 }]}>
           {photoUrl ? <Image style={styles.imageStyle} source={{ uri: photoUrl }} /> : <Image style={styles.imageStyle} source={PlaceholderImage} />}
           <Text>{name}</Text>
-          <Text>{address}</Text>
+          <TouchableOpacity onPress={() => openDirections(lat, lng)}>
+            <Text>{address}</Text>
+          </TouchableOpacity>
           <Text>{genre}</Text>
         </View>
         {loading ? (<View style={styles.loading}>
