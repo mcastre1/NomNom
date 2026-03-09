@@ -17,6 +17,9 @@ export default function DishScreen(){
     return (
         <View>
             <Text>{dishName}</Text>
+            <Text>{rating}</Text>
+            <Text>{photoUrl}</Text>
+            <Text>{notes}</Text>
         </View>
     )
 }
