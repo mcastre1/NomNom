@@ -49,6 +49,13 @@ export default function appTabs() {
                 }}
             />
 
+            <Tabs.Screen
+                name="dish/[dishId]"
+                options={{
+                    href: null,               // hides it from the tab bar
+                }}
+            />
+
 
         </Tabs>
     )

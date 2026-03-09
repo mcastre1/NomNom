@@ -1,6 +1,7 @@
 
 import { Image } from 'expo-image';
-import { StyleSheet, Text, View } from 'react-native';
+import { router } from 'expo-router';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 type Props = {
     name: string;
@@ -17,23 +18,37 @@ export default function DishCard({ name, rating, photoUrl, notes }: Props) {
     const count = 5;
     const items = Array.from({ length: count });
     return (
-        <View style={styles.cardContainer}>
-            {photoUrl ? <Image style={styles.imageStyle} source={{ uri: photoUrl }} /> : <Image style={styles.imageStyle} source={PlaceholderImage} />}
-            <View style={styles.infoContainer}>
-                <Text><Text style={{ fontWeight: 'bold' }}>Name:</Text> {name}</Text>
-                <Text style={{ fontWeight: 'bold' }}>Rating:</Text>
-                <Text>
-                    {items.map((_, i) => (
-                        i < Number(rating)
-                            ? <Text key={i}>⭐</Text>   // filled star
-                            : <Text key={i}>★</Text>   // empty star
-                    ))}
+        <Pressable onPress={
+            ()=>{
+                router.push({
+                    pathname: '/(app)/dish/[dishId]',
+                    params: {
+                        dishName: name,
+                        rating: rating,
+                        photoUrl: photoUrl, 
+                        notes: notes,
+                    }
+                })
+            }
+        }>
+            <View style={styles.cardContainer}>
+                {photoUrl ? <Image style={styles.imageStyle} source={{ uri: photoUrl }} /> : <Image style={styles.imageStyle} source={PlaceholderImage} />}
+                <View style={styles.infoContainer}>
+                    <Text><Text style={{ fontWeight: 'bold' }}>Name:</Text> {name}</Text>
+                    <Text style={{ fontWeight: 'bold' }}>Rating:</Text>
+                    <Text>
+                        {items.map((_, i) => (
+                            i < Number(rating)
+                                ? <Text key={i}>⭐</Text>   // filled star
+                                : <Text key={i}>★</Text>   // empty star
+                        ))}
 
-                </Text>
+                    </Text>
 
-                <Text><Text style={{ fontWeight: 'bold' }}>Comments:</Text> {notes}</Text>
+                    <Text><Text style={{ fontWeight: 'bold' }}>Comments:</Text> {notes}</Text>
+                </View>
             </View>
-        </View>
+        </Pressable>
     )
 }
 
