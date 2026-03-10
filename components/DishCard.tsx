@@ -8,13 +8,14 @@ type Props = {
     rating: string;
     photoUrl?: string;
     notes: string;
+    dishId: number;
 };
 
 
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 
 
-export default function DishCard({ name, rating, photoUrl, notes }: Props) {
+export default function DishCard({ dishId, name, rating, photoUrl, notes }: Props) {
     const count = 5;
     const items = Array.from({ length: count });
     return (
@@ -25,7 +26,7 @@ export default function DishCard({ name, rating, photoUrl, notes }: Props) {
                     params: {
                         dishName: name,
                         rating: rating,
-                        photoUrl: photoUrl, 
+                        dishId: dishId, 
                         notes: notes,
                     }
                 })

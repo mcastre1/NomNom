@@ -158,7 +158,7 @@ export default function RestaurantScreen() {
             data={dishes}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <DishCard name={item.name} rating={item.rating} photoUrl={item.photo} notes={item.notes} />
+              <DishCard dishId={item.id} name={item.name} rating={item.rating} photoUrl={item.photo} notes={item.notes} />
             )} />
         </View>)}
 
@@ -193,6 +193,7 @@ const styles = StyleSheet.create({
   addressText: {
     fontSize: 14,
     color: '#2a32a0',
+    
   },
 
 })

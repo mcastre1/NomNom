@@ -1,11 +1,12 @@
+import { supabase } from '@/lib/supabase';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 
 export default function DishScreen() {
-    const { dishName, rating, photoUrl, notes } = useLocalSearchParams();
+    const { dishName, rating, dishId, notes } = useLocalSearchParams();
     const navigation = useNavigation();
 
     const [name, setName] = useState(dishName);
@@ -25,11 +26,68 @@ export default function DishScreen() {
     }, [dishName, rating, notes]);
 
     const handleUpdate = () => {
-        console.log("update");
+        Alert.alert("Save Changes",
+            "Do you want to update this dish with the new information?",
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "Update",
+                    onPress: async () => {
+                        console.log("Updating dish...");
+                        const { data, error } = await supabase
+                            .from("dishes")
+                            .update({
+                                rating: starRating,
+                                notes: note,
+                            })
+                            .eq("id", dishId)
+                            .select()
+                            .single();
+
+                        if (error) {
+                            console.error("Update error:", error);
+                            return;
+                        }
+
+                        console.log("Updated:", data);
+                        navigation.goBack();
+
+                    }
+                }
+            ]
+        );
+
     }
 
     const handleDelete = () => {
-        console.log("Delete");
+        Alert.alert(
+            "Delete Dish",
+            "Are you sure you want to delete this dish? This action cannot be undone.",
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "Delete",
+                    style: "destructive",
+                    onPress: async () => {
+                        console.log("Deleting dish...");
+                        const { error } = await supabase
+                            .from("dishes")
+                            .delete()
+                            .eq("id", dishId);
+
+                        if (error) {
+                            console.error("Delete error:", error);
+                            return;
+                        }
+
+                        console.log("Deleted dish:", dishId);
+                        navigation.goBack();
+
+                    }
+                }
+            ]
+        );
+
     }
 
     return (
