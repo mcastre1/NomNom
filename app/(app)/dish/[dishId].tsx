@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Button, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 const PlaceholderImage = require('@/assets/images/adaptive-icon.png');
 
@@ -24,6 +24,13 @@ export default function DishScreen() {
         setNote(notes);
     }, [dishName, rating, notes]);
 
+    const handleUpdate = () => {
+        console.log("update");
+    }
+
+    const handleDelete = () => {
+        console.log("Delete");
+    }
 
     return (
         <KeyboardAvoidingView
@@ -62,8 +69,19 @@ export default function DishScreen() {
 
                 <Text style={styles.label}>Note:</Text>
                 <TextInput style={[styles.input, styles.multiline]} onChangeText={setNote} multiline numberOfLines={4} value={note} />
-                <Button title="Save" onPress={() => { console.log("Button") }} />
+                <View style={styles.bottomButtons}>
+                    <Pressable style={[styles.button, styles.updateButton]} onPress={handleUpdate}>
+                        <Text style={styles.buttonText}>Update</Text>
+                    </Pressable>
+
+                    <Pressable style={[styles.button, styles.deleteButton]} onPress={handleDelete}>
+                        <Text style={styles.buttonText}>Delete</Text>
+                    </Pressable>
+                </View>
             </ScrollView>
+
+
+
         </KeyboardAvoidingView>);
 }
 
@@ -93,20 +111,37 @@ const styles = StyleSheet.create({
     picker: {
         width: "100%",
     },
-    button: {
-        backgroundColor: "#4A90E2",
-        padding: 14,
-        borderRadius: 8,
-        marginTop: 20,
-        alignItems: "center",
-        width: "100%",
+    bottomButtons: {
+        position: "absolute",
+        bottom: 20,
+        left: 20,
+        right: 20,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        gap: 12,
     },
+
+    button: {
+        flex: 1,
+        paddingVertical: 14,
+        borderRadius: 10,
+        alignItems: "center",
+    },
+
+    updateButton: {
+        backgroundColor: "#4A90E2",
+    },
+
+    deleteButton: {
+        backgroundColor: "#E24A4A",
+    },
+
     buttonText: {
         color: "white",
         fontWeight: "700",
         fontSize: 16,
-        width: "100%",
     },
+
     imageStyle: {
         width: 200,
         height: 200,
@@ -124,7 +159,6 @@ const styles = StyleSheet.create({
     },
     multiline: {
         minHeight: 100,
+        marginBottom: 100,
     }
-
-
 });
