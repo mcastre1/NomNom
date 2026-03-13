@@ -1,40 +1,82 @@
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Session } from "@supabase/supabase-js";
 import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { AppState } from 'react-native';
 import { supabase } from '../lib/supabase';
 
-// Tells Supabase Auth to continuously refresh the session automatically if
-// the app is in the foreground. When this is added, you will continue to receive
-// `onAuthStateChange` events with the `TOKEN_REFRESHED` or `SIGNED_OUT` event
-// if the user's session is terminated. This should only be registered once.
+// Auto-refresh tokens when app is foregrounded
 AppState.addEventListener('change', (state) => {
   if (state === 'active') {
-    supabase.auth.startAutoRefresh()
+    supabase.auth.startAutoRefresh();
   } else {
-    supabase.auth.stopAutoRefresh()
+    supabase.auth.stopAutoRefresh();
   }
-})
+});
 
 export default function RootLayout() {
-  // This piece of code keeps track of the session so we can pass it around all other screens/tabs.
-  const [session, setSession] = useState<Session | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-      setLoading(false)
-    })
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
-  }, [])
+    const loadSession = async () => {
+      try {
+        // 1. Load saved session from storage
+        const stored = await AsyncStorage.getItem("supabase_session");
 
-  if (loading) {
-    return null
-  }
+        if (stored) {
+          const parsed = JSON.parse(stored);
+
+          // Ensure required tokens exist
+          if (parsed?.access_token && parsed?.refresh_token) {
+            const { data, error } = await supabase.auth.setSession({
+              access_token: parsed.access_token,
+              refresh_token: parsed.refresh_token,
+            });
+
+            if (!error) {
+              setSession(data.session);
+            }
+          }
+        } else {
+          // Fallback to Supabase internal session
+          const { data } = await supabase.auth.getSession();
+          setSession(data.session);
+        }
+      } catch (err) {
+        console.log("Error restoring session:", err);
+      }
+
+      setLoading(false);
+    };
+
+    loadSession();
+
+    // 2. Save session on every change
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      async (_event, newSession) => {
+        try {
+          if (newSession) {
+            await AsyncStorage.setItem(
+              "supabase_session",
+              JSON.stringify(newSession)
+            );
+          } else {
+            await AsyncStorage.removeItem("supabase_session");
+          }
+        } catch (err) {
+          console.log("Error saving session:", err);
+        }
+
+        setSession(newSession);
+      }
+    );
+
+    return () => listener.subscription.unsubscribe();
+  }, []);
+
+  if (loading) return null;
 
   return (
     <ActionSheetProvider>
