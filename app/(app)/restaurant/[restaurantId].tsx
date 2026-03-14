@@ -6,7 +6,7 @@ import { Image } from 'expo-image';
 import * as Linking from 'expo-linking';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 
 const EXPO_PUBLIC_BUCKET_URL = process.env.EXPO_PUBLIC_BUCKET_URL;
@@ -79,6 +79,7 @@ export default function RestaurantScreen() {
   // Retrieve all dishes where user id is the same as logged in user.
   // and restaurant id is the same as the restaurant the user is currently looking at.
   async function getDishes() {
+    setLoading(true);
     // Retrieve current users info.
     const { data: { user } } = await supabase.auth.getUser();
 
@@ -159,7 +160,11 @@ export default function RestaurantScreen() {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <DishCard dishId={item.id} name={item.name} rating={item.rating} photoUrl={item.photo} notes={item.notes} />
-            )} />
+            )}
+            refreshControl={
+              <RefreshControl refreshing={loading} onRefresh={getDishes} />
+            }
+          />
         </View>)}
 
       </View>
@@ -193,7 +198,7 @@ const styles = StyleSheet.create({
   addressText: {
     fontSize: 14,
     color: '#2a32a0',
-    
+
   },
 
 })
