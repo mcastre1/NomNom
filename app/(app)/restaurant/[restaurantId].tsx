@@ -53,7 +53,7 @@ export default function RestaurantScreen() {
 
   // Upload image to supabase bucket.
   async function uploadImageToSupabaseBucket() {
-    if (Object.keys(result.photo).length === 0) return;
+    if (!result.photo || !result.photo.uri) return;
 
     // Get file/photo 's info
     const arrayBuffer = await uriToArrayBuffer(result.photo.uri)
