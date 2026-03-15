@@ -50,8 +50,8 @@ This app helps my wife and me keep track of the dishes we’ve tried at restaura
 
 ### 1. Clone the repo
 ```sh
-git clone https://github.com/<your-username>/<your-repo>.git
-cd <your-repo>
+git clone https://github.com/mcastre1/NomNom.git
+cd NomNom
 ```
 
 ### 2. Install dependencies
@@ -66,6 +66,7 @@ Create a `.env` file (or use Expo’s `app.config.js`):
 EXPO_PUBLIC_SUPABASE_URL=your-url
 EXPO_PUBLIC_SUPABASE_ANON_KEY=your-key
 EXPO_PUBLIC_GOOGLE_MAPS_API_KEY=your-key
+EXPO_PUBLIC_PUBLISH_KEY=your key
 ```
 
 ### 4. Start the app
@@ -81,27 +82,22 @@ npx expo start
 | Column | Type | Description |
 |--------|------|-------------|
 | id | uuid | User ID (auth.uid) |
-| created_at | timestamp | Profile creation date |
-| name | text | Optional display name |
-
-### `restaurants`
-| Column | Type |
-|--------|------|
-| id | uuid |
-| user_id | uuid |
-| name | text |
-| place_id | text (Google Places ID) |
-| address | text |
+| updated_at | timestamp |
+| username | text |
+| full_name | text |
+| avatar_url | text |
+| website | text |
 
 ### `dishes`
 | Column | Type |
 |--------|------|
 | id | uuid |
+| user_id | uuid |
 | restaurant_id | uuid |
 | name | text |
 | rating | int |
 | notes | text |
-| created_at | timestamp |
+| photo | text (link to supabase storage container) |
 
 ---
 
