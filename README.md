@@ -104,9 +104,15 @@ npx expo start
 ## 📸 Screenshots (optional)
 Add these later:
 - Login screen  
-- Restaurant search  
-- Add dish form  
-- Dish list per restaurant  
+- Restaurants near
+- Restaurant page
+- Add Dish modal
+- Dish page
+- Remove dish
+- update dish
+- Map
+- Map click on POI
+- Logout
 
 ---
 
