@@ -103,16 +103,16 @@ npx expo start
 
 ## 📸 Screenshots (optional)
 Add these later:
-- Login screen  
-- Restaurants near
-- Restaurant page
-- Add Dish modal
-- Dish page
-- Remove dish
-- update dish
-- Map
-- Map click on POI
-- Logout
+- Login screen ![alt text](assets/images/readme/1000009248.jpg)
+- Restaurants near ![alt text](assets/images/readme/1000009252jpg)
+- Restaurant page ![alt text](assets/images/readme/1000009267.jpg)
+- Add Dish modal ![alt text](assets/images/readme/1000009262.jpg)
+- Dish page ![alt text](assets/images/readme/1000009270.jpg)
+- Remove dish ![alt text](assets/images/readme/1000009273.jpg)
+- Update Dish ![alt text](assets/images/readme/1000009271.jpg)
+- Map ![alt text](assets/images/readme/1000009254.jpg)
+- Map click on POI ![alt text](assets/images/readme/1000009256.jpg)
+- Logout ![alt text](assets/images/readme/1000009275.jpg)
 
 ---
 
