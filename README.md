@@ -117,20 +117,6 @@ Add these later:
 
 ---
 
-## 🚀 Roadmap
-
-- [ ] Add photo upload for dishes  
-- [ ] Add “favorites” filter  
-- [ ] Add map view of visited restaurants  
-- [ ] Add sharing so couples can sync lists  
-- [ ] Add offline mode  
-
----
-
-## 🤝 Contributing
-This is a personal project, but PRs and suggestions are welcome.
-
----
 
 ## 📄 License
 MIT License
