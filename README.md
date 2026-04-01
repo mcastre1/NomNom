@@ -103,16 +103,17 @@ npx expo start
 
 ## 📸 Screenshots (optional)
 Add these later:
-- Login screen ![alt text](assets/images/readme/1000009248.jpg)
-- Restaurants near ![alt text](assets/images/readme/1000009252.jpg)
-- Restaurant page ![alt text](assets/images/readme/1000009267.jpg)
-- Add Dish modal ![alt text](assets/images/readme/1000009262.jpg)
-- Dish page ![alt text](assets/images/readme/1000009270.jpg)
-- Remove dish ![alt text](assets/images/readme/1000009273.jpg)
-- Update Dish ![alt text](assets/images/readme/1000009271.jpg)
-- Map ![alt text](assets/images/readme/1000009254.jpg)
-- Map click on POI ![alt text](assets/images/readme/1000009256.jpg)
-- Logout ![alt text](assets/images/readme/1000009275.jpg)
+- Login screen <img src="assets/images/readme/1000009248.jpg" width="250" />
+- Restaurants near <img src="assets/images/readme/1000009252.jpg" width="250" />
+- Restaurant page <img src="assets/images/readme/1000009267.jpg" width="250" />
+- Add Dish modal <img src="assets/images/readme/1000009262.jpg" width="250" />
+- Dish page <img src="assets/images/readme/1000009270.jpg" width="250" />
+- Remove dish <img src="assets/images/readme/1000009273.jpg" width="250" />
+- Update Dish <img src="assets/images/readme/1000009271.jpg" width="250" />
+- Map <img src="assets/images/readme/1000009254.jpg" width="250" />
+- Map click on POI <img src="assets/images/readme/1000009256.jpg" width="250" />
+- Logout <img src="assets/images/readme/1000009275.jpg" width="250" />
+
 
 ---
 
