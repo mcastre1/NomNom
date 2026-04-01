@@ -104,7 +104,7 @@ npx expo start
 ## 📸 Screenshots (optional)
 Add these later:
 - Login screen ![alt text](assets/images/readme/1000009248.jpg)
-- Restaurants near ![alt text](assets/images/readme/1000009252jpg)
+- Restaurants near ![alt text](assets/images/readme/1000009252.jpg)
 - Restaurant page ![alt text](assets/images/readme/1000009267.jpg)
 - Add Dish modal ![alt text](assets/images/readme/1000009262.jpg)
 - Dish page ![alt text](assets/images/readme/1000009270.jpg)
