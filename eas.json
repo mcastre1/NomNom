@@ -1,0 +1,33 @@
+{
+  "cli": {
+    "version": ">= 18.0.1",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_GOOGLE_MAPS_API": "@EXPO_PUBLIC_GOOGLE_MAPS_API",
+        "EXPO_PUBLIC_BUCKET_URL": "@EXPO_PUBLIC_BUCKET_URL",
+        "EXPO_PUBLIC_BASE_URL": "@EXPO_PUBLIC_BASE_URL",
+        "EXPO_PUBLIC_PUBLISH_KEY": "@EXPO_PUBLIC_PUBLISH_KEY"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_GOOGLE_MAPS_API": "@EXPO_PUBLIC_GOOGLE_MAPS_API",
+        "EXPO_PUBLIC_BUCKET_URL": "@EXPO_PUBLIC_BUCKET_URL",
+        "EXPO_PUBLIC_BASE_URL": "@EXPO_PUBLIC_BASE_URL",
+        "EXPO_PUBLIC_PUBLISH_KEY": "@EXPO_PUBLIC_PUBLISH_KEY"
+      }
+    },
+    "production": {
+      "autoIncrement": true
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

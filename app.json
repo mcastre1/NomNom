@@ -1,0 +1,64 @@
+{
+  "expo": {
+    "name": "NomNom",
+    "slug": "NomNom",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/android/ic_launcher.png",
+    "scheme": "nomnom",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "icon": "./assets/images/ios/ios_icon.png",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mcastre1.nomnom",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/images/android/ic_launcher_foreground.png",
+        "backgroundImage": "./assets/images/android/ic_launcher_background.png",
+        "monochromeImage": "./assets/images/android/ic_launcher_monochrome.png"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false,
+      "package": "com.mcastre1.nomnom",
+      "config": {
+        "googleMaps": { 
+          "apiKey": "@EXPO_PUBLIC_GOOGLE_MAPS_API"
+        }
+      }
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/web/icon-maskable.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff",
+          "dark": {
+            "backgroundColor": "#000000"
+          }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "07a53fb7-7ad5-475e-babc-33a09fb8424c"
+      }
+    }
+  }
+}
