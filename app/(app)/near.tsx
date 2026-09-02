@@ -35,6 +35,7 @@ export default function AboutScreen() {
 
       //fetch data
       const response = await fetch(url);
+      console.log('Response status:', response);
       const json = await response.json();
 
       const mapped = json.results.map((place) => ({
